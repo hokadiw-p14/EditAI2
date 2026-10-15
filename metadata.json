@@ -1,0 +1,8 @@
+{
+  "name": "Remix RenPy Editor Pro",
+  "description": "Edit Ren\u0027Py scripts, code, and APK files seamlessly with this all-in-one mobile development toolkit.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

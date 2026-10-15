@@ -1,0 +1,94 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile and domain settings",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "User UID from Firebase Auth"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name"
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Avatar photo URL"
+        },
+        "customDomain": {
+          "type": "string",
+          "description": "User custom domain for website hosting"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Account creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last profile update timestamp"
+        }
+      },
+      "required": ["id", "email"]
+    },
+    "UserProject": {
+      "title": "UserProject",
+      "description": "Cloud-saved Ren'Py and code project",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique project identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Project title"
+        },
+        "activeFilePath": {
+          "type": "string",
+          "description": "Currently active file path"
+        },
+        "files": {
+          "type": "array",
+          "description": "Array of project files for cross-device sync"
+        },
+        "filesJson": {
+          "type": "string",
+          "description": "Serialized project files array fallback"
+        },
+        "filesCount": {
+          "type": "number",
+          "description": "Total count of files in project"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Project creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["id", "userId", "name"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile collection"
+    },
+    "/users/{userId}/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/UserProject" },
+      "description": "User cloud projects collection"
+    }
+  }
+}
