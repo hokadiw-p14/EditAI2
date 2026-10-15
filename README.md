@@ -1,26 +1,101 @@
-# EditAI2
+# EditAI2 — คู่มือภาษาไทย
 
-A responsive, browser-based writing workspace starter with Markdown export, local draft storage, and prepared AI prompts.
+EditAI2 เป็นเว็บแอปสำหรับเขียนและจัดระเบียบข้อความ รองรับมือถือและคอมพิวเตอร์ พัฒนาด้วย HTML, CSS และ JavaScript โดยไม่ต้องติดตั้งแพ็กเกจเพิ่มเติม
 
-## Live site
-After GitHub Pages deployment succeeds: https://hokadiw-p14.github.io/EditAI2/
+## 1. เปิดใช้งานเว็บไซต์
 
-## Run locally
-No build tools required. Open `index.html` in a browser, or run:
+เมื่อเปิด GitHub Pages สำเร็จ สามารถเข้าใช้งานได้ที่:
+
+**https://hokadiw-p14.github.io/EditAI2/**
+
+หากยังเข้าไม่ได้ ให้ตรวจสอบหัวข้อ **การ Deploy ด้วย GitHub Pages** ด้านล่าง
+
+## 2. ทดลองใช้งานบนเครื่อง
+
+ไม่ต้องติดตั้ง Node.js หรือ build tools
+
+1. ดาวน์โหลดโค้ดโดยกดปุ่ม **Code → Download ZIP** ในหน้า Repository
+2. แตกไฟล์ ZIP
+3. เปิดไฟล์ `index.html` ด้วยเบราว์เซอร์รุ่นใหม่
+
+หรือถ้ามี Python ให้เปิด Terminal/Termux ในโฟลเดอร์โปรเจกต์แล้วรัน:
+
 ```sh
 python -m http.server 8000
 ```
-Then visit http://localhost:8000.
 
-## Deploy
-1. Open repository **Settings → Pages**.
-2. Set **Build and deployment → Source** to **GitHub Actions**.
-3. The workflow deploys automatically when changes are pushed to `main`.
-4. Follow **Actions** to check deployment status.
+จากนั้นเปิด `http://localhost:8000` ในเบราว์เซอร์เครื่องเดียวกัน
 
-## Important
-The AI panel currently prepares prompts; it does not call an AI model. For real AI responses, create a server-side endpoint and store API credentials as server-side secrets. Never put an API key in browser JavaScript or `index.html`.
+## 3. วิธีใช้เครื่องมือในหน้าเว็บ
 
-## Structure
-- `index.html` — responsive front-end
-- `.github/workflows/deploy.yml` — GitHub Pages deployment
+- **ชื่อเอกสาร:** แตะชื่อเอกสารด้านบนเพื่อแก้ไขชื่อ
+- **พื้นที่เขียน:** พิมพ์ข้อความในพื้นที่หลัก
+- **H1 / H2:** แทรกหัวข้อระดับ 1 หรือ 2
+- **B / I:** แทรกตัวอย่างข้อความตัวหนาหรือตัวเอียง
+- **List:** แทรกรายการแบบหัวข้อย่อย
+- **Divider:** แทรกเส้นคั่น Markdown
+- **บันทึก:** เก็บชื่อและเนื้อหาไว้ใน Local Storage ของเบราว์เซอร์
+- **Load saved draft:** โหลดฉบับร่างที่บันทึกไว้ในเบราว์เซอร์นั้น
+- **ส่งออก:** ดาวน์โหลดเนื้อหาเป็นไฟล์ Markdown นามสกุล `.md`
+- **Theme:** สลับรูปแบบสีของหน้าเว็บ
+- **Quick actions:** สร้างข้อความคำสั่งสำหรับปรับสำนวน สรุป แปลภาษา หรืออธิบายโค้ด
+- **คัดลอกคำสั่ง AI:** คัดลอกคำสั่งที่เตรียมไว้ เพื่อนำไปใช้กับ AI ที่ต้องการ
+
+### ข้อควรรู้เกี่ยวกับการบันทึก
+
+ฉบับร่างเก็บไว้ในเบราว์เซอร์ของอุปกรณ์ที่ใช้งาน ไม่ได้ซิงก์ข้ามอุปกรณ์หรือส่งขึ้นเซิร์ฟเวอร์โดยอัตโนมัติ การล้างข้อมูลเว็บไซต์หรือเปลี่ยนเบราว์เซอร์อาจทำให้ฉบับร่างหายได้ ควรใช้ **ส่งออก** เพื่อเก็บสำเนาสำคัญ
+
+## 4. การ Deploy ด้วย GitHub Pages
+
+1. เปิด [Repository Settings → Pages](https://github.com/hokadiw-p14/EditAI2/settings/pages)
+2. ในหัวข้อ **Build and deployment** ตั้งค่า **Source** เป็น **GitHub Actions**
+3. ตรวจสอบว่าไฟล์ `.github/workflows/deploy.yml` อยู่ใน branch `main`
+4. เปิดแท็บ [Actions](https://github.com/hokadiw-p14/EditAI2/actions)
+5. รอ Workflow ชื่อ **Deploy EditAI2 to GitHub Pages** ทำงานเสร็จและแสดงสถานะสำเร็จ
+6. เปิดเว็บไซต์ที่ https://hokadiw-p14.github.io/EditAI2/
+
+หาก Workflow ล้มเหลว ให้เปิดรายการงานในแท็บ Actions แล้วอ่านข้อความผิดพลาดในขั้นตอนที่เป็นสีแดง
+
+## 5. เชื่อมต่อ AI จริงในอนาคต
+
+ขณะนี้ AI Assistant เป็นส่วนติดต่อสำหรับเตรียมและคัดลอกคำสั่งเท่านั้น ยังไม่ได้ส่งคำขอไปยังโมเดล AI
+
+หากต้องการให้ AI สร้างคำตอบภายในแอป ต้องเพิ่ม Backend/API endpoint และตั้งค่า API Key เป็น Secret ในระบบฝั่งเซิร์ฟเวอร์ ห้ามฝัง API Key ใน `index.html`, JavaScript ที่ส่งไปยังเบราว์เซอร์ หรือ Repository
+
+## 6. โครงสร้างไฟล์
+
+```
+EditAI2/
+├── index.html
+├── README.md
+└── .github/
+    └── workflows/
+        └── deploy.yml
+```
+
+- `index.html` — หน้าเว็บและฟังก์ชันหลัก
+- `README.md` — คู่มือภาษาไทยฉบับนี้
+- `deploy.yml` — Workflow สำหรับเผยแพร่เว็บไซต์ผ่าน GitHub Pages
+
+## 7. แก้ปัญหาเบื้องต้น
+
+**เปิดเว็บไซต์แล้วเป็น 404**
+- ตรวจสอบว่าเปิด GitHub Pages แล้ว
+- ตรวจสอบว่า Workflow ทำงานสำเร็จ
+- รอสักครู่แล้วลองเปิด URL อีกครั้ง
+
+**กดบันทึกแล้วหาเอกสารไม่เจอ**
+- การบันทึกอยู่ใน Local Storage ของเบราว์เซอร์เดิม
+- ใช้ปุ่มส่งออกเพื่อเก็บไฟล์สำรอง
+
+**ปุ่มคัดลอกใช้ไม่ได้**
+- บางเบราว์เซอร์ต้องใช้ HTTPS หรืออนุญาตสิทธิ์ Clipboard
+- ลองเลือกข้อความแล้วคัดลอกด้วยเมนูของอุปกรณ์
+
+**AI ยังไม่ตอบกลับ**
+- เป็นข้อจำกัดตามที่ออกแบบไว้ในเวอร์ชันเริ่มต้น ต้องเพิ่ม Backend และเชื่อมต่อโมเดล AI ก่อน
+
+---
+
+Repository: https://github.com/hokadiw-p14/EditAI2  
+เวอร์ชันเริ่มต้น: 0.1.0
