@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<meta name="description" content="EditAI2 Annotation Playground — ทดลองเลือกส่วนประกอบและส่ง feedback ให้ ChatGPT Browser">
+<meta name="oai-annotation-editor-default-mode" content="advanced">
+<title>EditAI2 · Annotation Playground</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#121a2d;--panel2:#19243b;--line:#2a3854;--text:#edf3ff;--muted:#9eacc7;--accent:#9b8cff;--mint:#5de0c2;--preview-bg:#202b45;--preview-gap:16px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 12% 0%,#29234c 0,transparent 38%),var(--bg);color:var(--text);font:15px/1.6 system-ui,sans-serif}
+button,a{font:inherit}button{border:1px solid var(--line);border-radius:11px;padding:10px 14px;background:var(--panel2);color:var(--text);cursor:pointer}button:hover,a:hover{border-color:var(--accent)}button:disabled{opacity:.5;cursor:not-allowed}.primary{background:var(--accent);color:#111326;border-color:transparent;font-weight:700}.wrap{max-width:1120px;margin:auto;padding:22px;display:grid;gap:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:12px}.logo{background:linear-gradient(135deg,var(--accent),var(--mint));color:#111326;padding:10px 13px;border-radius:12px;font-weight:900}.brand h1{font-size:19px;margin:0}.muted{color:var(--muted);font-size:13px}.panel{background:#121a2deF;border:1px solid var(--line);border-radius:17px;padding:20px}.hero h2{font-size:clamp(23px,4vw,34px);margin:0 0 8px}.grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(270px,.8fr);gap:16px}.preview{background:var(--preview-bg);border:1px solid #526187;border-radius:15px;padding:var(--preview-gap);transition:background .15s,padding .15s}.preview h3{margin:0 0 8px}.preview p{color:#c4cde0;margin:0 0 14px}.preview .pill{display:inline-block;border:1px solid #6677a0;border-radius:999px;padding:3px 9px;font-size:12px;color:#dce5ff}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.status{padding:12px;border-radius:11px;background:#5de0c212;border:1px solid #5de0c244;color:#c7fff1;font-size:13px;overflow-wrap:anywhere}.status.warn{background:#ffcb6b12;border-color:#ffcb6b44;color:#ffe6b2}.status.bad{background:#ff737312;border-color:#ff737344;color:#ffc6c6}.field{display:grid;gap:7px;margin:13px 0}.field label{font-size:13px;color:var(--muted)}textarea{width:100%;min-height:110px;resize:vertical;background:#0b1222;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit}.steps{padding-left:20px;color:var(--muted);font-size:13px}.steps li{margin:6px 0}.tag{display:inline-block;background:#9b8cff20;color:#d7d0ff;border:1px solid #9b8cff55;border-radius:7px;padding:2px 7px;font-size:11px}.back{color:#cfc8ff;text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:9px 12px}.small{font-size:12px;color:var(--muted)}code{color:#c9c1ff}@media(max-width:760px){.wrap{padding:13px}.grid{grid-template-columns:1fr}.panel{padding:15px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="top">
+ <div class="brand"><div class="logo">E2</div><div><h1>EditAI2 <span class="tag">ANNOTATION LAB</span></h1><div class="muted">เลือกส่วนประกอบ · ใส่บริบท · ส่ง feedback ให้ ChatGPT</div></div></div>
+ <a class="back" href="./">← กลับ Editor</a>
+</header>
+<section class="panel hero">
+ <h2>ชี้จุดที่อยากแก้ แล้วคุยกับ AI</h2>
+ <p class="muted">พื้นที่ทดลองเชื่อมเว็บไซต์กับ Annotation API ของ ChatGPT Browser โดยตรง หน้านี้จะตรวจสอบความสามารถของเบราว์เซอร์ก่อนเปิดใช้</p>
+ <div id="api-status" class="status warn" role="status">กำลังตรวจสอบ Annotation API…</div>
+ <div class="row"><button id="toggle-mode" class="primary" disabled>เปิด Annotation Mode</button><button id="request-card" disabled>แสดงความคิดเห็นกับการ์ดนี้</button><button id="request-text" disabled>ถามเกี่ยวกับข้อความตัวอย่าง</button></div>
+</section>
+<div class="grid">
+ <section class="panel">
+  <p class="small">LIVE COMPONENT PREVIEW</p>
+  <article id="preview-card" class="preview" aria-label="ตัวอย่างการ์ดโปรไฟล์">
+   <span class="pill">COMPONENT · PROFILE CARD</span>
+   <h3>Hokadiw Studio</h3>
+   <p id="preview-copy">เปลี่ยนไอเดียให้กลายเป็นระบบ ด้วยการออกแบบและพัฒนาเว็บแอปที่ใช้งานได้จริง</p>
+   <div class="row"><span class="pill">Web Development</span><span class="pill">AI Solutions</span></div>
+  </article>
+  <div class="row"><button id="direct-comment" disabled>✎ ขอความเห็นจุดนี้</button></div>
+  <p class="small">ใน ChatGPT Browser ให้เลือกการ์ดนี้ผ่าน Annotation Mode หรือกดปุ่มเพื่อเปิด annotation โดยตรง</p>
+ </section>
+ <aside class="panel">
+  <h3 style="margin-top:0">Custom Controls</h3>
+  <p class="muted">ทดลองปรับค่าของ Component ผ่านตัวควบคุมที่ลงทะเบียนไว้กับ Annotation API</p>
+  <div class="field"><label for="padding">Card padding (local preview)</label><input id="padding" type="range" min="12" max="32" step="4" value="16"></div>
+  <div class="field"><label for="bgcolor">Card background (local preview)</label><input id="bgcolor" type="color" value="#202b45"></div>
+  <div class="small">ตัวควบคุมด้านบนเป็น fallback สำหรับทดสอบหน้าเว็บปกติ ส่วน Custom Controls ของ ChatGPT จะแสดงเมื่อ API รองรับ</div>
+ </aside>
+</div>
+<section class="panel">
+ <h3 style="margin-top:0">ข้อความสำหรับทดสอบ Text Range</h3>
+ <p id="sample-text">EditAI2 ช่วยให้นักพัฒนาระบุองค์ประกอบบนหน้าเว็บได้ตรงจุด และส่งคำอธิบายพร้อมบริบทให้ ChatGPT ช่วยวิเคราะห์หรือเสนอแนวทางปรับปรุง</p>
+ <p class="small">สามารถลากเลือกข้อความด้านบน แล้วใช้ปุ่ม “ถามเกี่ยวกับข้อความตัวอย่าง” เพื่อเปิด annotation เฉพาะช่วงข้อความ</p>
+</section>
+<section class="panel">
+ <h3 style="margin-top:0">AI Handoff · เตรียมคำสั่งให้ Coding Agent</h3>
+ <p class="muted">ต้นแบบนี้ยังไม่แก้ไฟล์หรือเรียกโมเดล AI อัตโนมัติ แต่ช่วยจัดรูปแบบ feedback เพื่อส่งต่อให้ Coding Agent ได้</p>
+ <div class="field"><label for="task">คำสั่งที่ต้องการให้ Agent ทำ</label><textarea id="task" placeholder="เช่น ปรับการ์ดนี้ให้ดูเรียบขึ้น เพิ่มระยะห่าง และรักษาโทนสีเดิม"></textarea></div>
+ <div class="row"><button id="copy-handoff" class="primary">คัดลอก Agent Handoff</button></div>
+ <div id="copy-status" class="small" aria-live="polite"></div>
+</section>
+<footer class="small">EditAI2 · Annotation Playground · API availability depends on the host browser. This page does not transmit your content to an AI service by itself.</footer>
+</main>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id);
+ const api=document.oai?.annotation;
+ const supported=!!api;
+ const status=$('api-status');
+ const controlsButtons=['toggle-mode','request-card','request-text','direct-comment'];
+ function enable(on){controlsButtons.forEach(id=>$(id).disabled=!on)}
+ function setStatus(message,kind=''){status.textContent=message;status.className='status'+(kind?' '+kind:'')}
+ if(supported){
+   const hasRequest=typeof api.request==='function';
+   const hasToggle=typeof api.toggle==='function'&&typeof api.isActive==='function';
+   enable(hasRequest);
+   $('toggle-mode').disabled=!hasToggle;
+   setStatus('ตรวจพบ document.oai.annotation แล้ว · request: '+(hasRequest?'พร้อม':'ไม่รองรับ')+' · toggle: '+(hasToggle?'พร้อม':'ไม่รองรับ'),'');
+ }else{
+   enable(false);
+   setStatus('ยังไม่พบ Annotation API ในเบราว์เซอร์นี้ หน้าเว็บยังใช้งานตัวอย่างและเตรียม Agent Handoff ได้ แต่การเปิด Annotation ต้องใช้ ChatGPT Browser ที่รองรับ','warn');
+ }
+ const card=$('preview-card');
+ function requestCard(){
+   if(typeof api?.request!=='function')return;
+   const result=api.request(card,{mode:'advanced',initialComment:'ช่วยตรวจสอบ Component นี้ และเสนอแนวทางปรับปรุง UI โดยรักษาโครงสร้างเดิม'});
+   if(!result?.accepted)setStatus('เบราว์เซอร์ยังไม่รับคำขอ annotation ลองอีกครั้งจากการกดปุ่มโดยตรง','warn');
+ }
+ $('request-card').addEventListener('click',requestCard);
+ $('direct-comment').addEventListener('click',requestCard);
+ $('request-text').addEventListener('click',()=>{
+   if(typeof api?.request!=='function')return;
+   const range=document.createRange();range.selectNodeContents($('sample-text'));
+   const result=api.request(range,{initialComment:'ช่วยอธิบายข้อความที่เลือก และเสนอการปรับให้อ่านง่ายขึ้น'});
+   if(!result?.accepted)setStatus('ไม่สามารถเปิด annotation สำหรับข้อความนี้ได้','warn');
+ });
+ function renderMode(active){$('toggle-mode').textContent=active?'ปิด Annotation Mode':'เปิด Annotation Mode'}
+ if(typeof api?.isActive==='function')renderMode(api.isActive());
+ $('toggle-mode').addEventListener('click',()=>{
+   if(typeof api?.toggle!=='function')return;
+   const result=api.toggle(!api.isActive());
+   if(!result?.accepted)setStatus('เบราว์เซอร์ไม่รับคำขอเปลี่ยนโหมด','warn');
+ });
+ document.addEventListener('oaiannotationmodechange',event=>renderMode(!!event.detail?.active));
+ $('padding').addEventListener('input',event=>card.style.setProperty('--preview-gap',event.target.value+'px'));
+ $('bgcolor').addEventListener('input',event=>card.style.setProperty('--preview-bg',event.target.value));
+ let registration;
+ function onControlChange(event){
+   const {callback,value,action}=event.detail||{};
+   if(callback==='setCardPadding')card.style.setProperty('--preview-gap',value+'px');
+   if(callback==='setCardBackground')card.style.setProperty('--preview-bg',value);
+ }
+ if(typeof api?.registerControls==='function'){
+   try{
+     card.addEventListener('oaiannotationcontrolchange',onControlChange);
+     registration=api.registerControls({
+       targets:card,
+       controlsHeading:'Profile card appearance',
+       controlsMode:'extend',
+       controls:[
+         {type:'range',label:'Card padding',callback:'setCardPadding',reference:'--preview-gap',min:12,max:32,step:4,currentValue:16},
+         {type:'color',label:'Card background',callback:'setCardBackground',reference:'--preview-bg',currentValue:'#202b45'}
+       ]
+     });
+   }catch(error){setStatus('พบ API แต่ลงทะเบียน Custom Controls ไม่สำเร็จ: '+error.message,'warn')}
+ }
+ $('copy-handoff').addEventListener('click',async()=>{
+   const task=$('task').value.trim()||'ตรวจสอบองค์ประกอบที่ผู้ใช้เลือก และเสนอการปรับปรุงโดยไม่เปลี่ยนส่วนอื่นที่ไม่เกี่ยวข้อง';
+   const text='Project: EditAI2\nTarget: Profile Card (preview-card)\nUser request: '+task+'\n\nInstructions:\n1. Inspect the selected component and its surrounding styles.\n2. Propose a minimal, reversible change.\n3. Show the diff before applying changes.\n4. Do not modify unrelated components.\n5. Run the relevant checks and report the result.';
+   try{await navigator.clipboard.writeText(text);$('copy-status').textContent='คัดลอก Agent Handoff แล้ว'}catch(error){$('copy-status').textContent='คัดลอกอัตโนมัติไม่ได้ กรุณาอนุญาต Clipboard หรือคัดลอกข้อความจากคำสั่งอีกครั้ง'}
+ });
+ window.addEventListener('pagehide',()=>{registration?.dispose();card.removeEventListener('oaiannotationcontrolchange',onControlChange)});
+})();
+</script>
+</body></html>
