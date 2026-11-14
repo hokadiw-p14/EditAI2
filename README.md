@@ -45,6 +45,25 @@ python -m http.server 8000
 
 ฉบับร่างเก็บไว้ในเบราว์เซอร์ของอุปกรณ์ที่ใช้งาน ไม่ได้ซิงก์ข้ามอุปกรณ์หรือส่งขึ้นเซิร์ฟเวอร์โดยอัตโนมัติ การล้างข้อมูลเว็บไซต์หรือเปลี่ยนเบราว์เซอร์อาจทำให้ฉบับร่างหายได้ ควรใช้ **ส่งออก** เพื่อเก็บสำเนาสำคัญ
 
+## 3.1 Annotation Playground (ทดลองเชื่อม ChatGPT Browser)
+
+เปิดหน้า **Annotation Lab** จากปุ่มด้านบนของ Editor หรือไปที่:
+
+**https://hokadiw-p14.github.io/EditAI2/annotation-playground.html**
+
+ความสามารถในต้นแบบ:
+- ตรวจสอบว่าเบราว์เซอร์มี `document.oai.annotation` หรือไม่
+- ขอเปิด Annotation สำหรับ Component หรือช่วงข้อความด้วย `request()`
+- เปิด/ปิด Annotation Mode ด้วย `toggle()` และติดตามสถานะผ่าน event
+- ลงทะเบียน Custom Controls สำหรับทดลองปรับ padding และสีพื้นหลัง
+- เตรียม Agent Handoff prompt เพื่อคัดลอกไปให้ Coding Agent
+
+**ข้อจำกัดสำคัญ:** Annotation API เป็นความสามารถของ ChatGPT Browser ที่รองรับ ไม่ใช่ Web API ทั่วไป ดังนั้นเมื่อเปิดผ่าน Chrome ปกติหรือ GitHub Pages โดยตรง อาจไม่พบ API และปุ่ม Annotation จะถูกปิดไว้ หน้า Playground ยังใช้ดูตัวอย่างและเตรียม Agent Handoff ได้ตามปกติ
+
+ต้นแบบนี้ยังไม่เชื่อม AI Coding Agent จริง ไม่ได้แก้ไขไฟล์ Repository อัตโนมัติ และไม่ส่งเนื้อหาไปยัง AI service เอง การแก้ไขโค้ดจริงต้องมี backend/agent ที่ได้รับสิทธิ์เข้าถึง Repository พร้อมระบบตรวจ diff และอนุมัติก่อนเขียนไฟล์
+
+เอกสาร API: https://learn.chatgpt.com/docs/annotations-extensibility
+
 ## 4. การ Deploy ด้วย GitHub Pages
 
 1. เปิด [Repository Settings → Pages](https://github.com/hokadiw-p14/EditAI2/settings/pages)
